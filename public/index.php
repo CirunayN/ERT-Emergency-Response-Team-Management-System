@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "../app/controller/IncidentController.php";
+require_once "../app/control/IncidentController.php";
 
 $controller = new IncidentController();
 
