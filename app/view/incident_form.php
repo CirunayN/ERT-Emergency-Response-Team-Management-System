@@ -10,12 +10,14 @@ function old($key, $default = '') {
 <head>
   <meta charset="utf-8">
   <title>Emergency Response Team</title>
-  <link href="css/form-style.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/form-style.css" rel="stylesheet">
+ 
 </head>
 <body>
+<h1 class="text-center">Emergency Response Team Management System</h1>
   <div class="container mt-4">
-    <h1 class="text-center">Emergency Response Team Management System</h1>
+    
 
     <div class="row mt-4">
       <div class="col-md-4">
@@ -29,7 +31,7 @@ function old($key, $default = '') {
             <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
           <?php endif; ?>
 
-          <form method="POST" action="index.php">
+          <form method="POST" action="index.php?action=incident">
             <div class="mb-3">
               <label class="form-label">Reporter Name</label>
               <input type="text" name="reporter" class="form-control" value="<?= old('reporter') ?>">
@@ -126,6 +128,5 @@ function old($key, $default = '') {
 </body>
 </html>
 <?php
-// clear old variables available to view
 unset($old);
 ?>

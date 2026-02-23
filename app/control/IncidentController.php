@@ -7,14 +7,12 @@ class IncidentController
     // Show the form and current incidents
     public function index(): void
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+    
         $incidents = Incident::all();
-        $error = $_SESSION['flash_error'] ?? '';
-        $success = $_SESSION['flash_success'] ?? '';
-        // clear flash messages
-        unset($_SESSION['flash_error'], $_SESSION['flash_success']);
-
-        // variables that the view expects:
-        require __DIR__ . '/../view/incident_form.php';
     }
 
     // Handle form submission
@@ -34,21 +32,21 @@ class IncidentController
             $_SESSION['flash_error'] = 'All fields are required!';
             // store old inputs so view can re-populate if you want
             $_SESSION['old'] = compact('reporter','contact','location','type','danger','description');
-            header('Location: index.php');
+            header('Location: index.php?action=incident');
             exit;
         }
 
         if (!is_numeric($contact) || strlen($contact) != 11) {
             $_SESSION['flash_error'] = 'Contact number must be exactly 11 digits!';
             $_SESSION['old'] = compact('reporter','contact','location','type','danger','description');
-            header('Location: index.php');
+            header('Location: index.php?action=incident');
             exit;
         }
 
         if (strlen($description) < 10) {
             $_SESSION['flash_error'] = 'Description must be at least 10 characters!';
             $_SESSION['old'] = compact('reporter','contact','location','type','danger','description');
-            header('Location: index.php');
+            header('Location: index.php?action=incident');
             exit;
         }
 
@@ -67,7 +65,7 @@ class IncidentController
         $_SESSION['flash_success'] = 'Incident successfully reported!';
         // clear old inputs
         unset($_SESSION['old']);
-        header('Location: index.php');
+        header('Location: index.php?action=incident');
         exit;
     }
 }
