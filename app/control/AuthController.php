@@ -2,7 +2,7 @@
 
 class AuthController {
 
-    private $userFile = __DIR__ . "/../model/users.json";
+    private $userFile = "../app/model/users.json";
 
     private function loadUsers() {
         if (!file_exists($this->userFile)) {
@@ -18,15 +18,16 @@ class AuthController {
     public function signup() {
 
         $error = "";
+        $success = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $username = trim($_POST["username"] ?? '');
-            $email = trim($_POST["email"] ?? '');
-            $password = $_POST["password"] ?? '';
-            $confirm = $_POST["confirm"] ?? '';
+            $username = trim($_POST["username"]);
+            $email = trim($_POST["email"]);
+            $password = $_POST["password"];
+            $confirm = $_POST["confirm"];
 
-            if (empty($username) || empty($email) || empty($password)) {
+            if (empty($username) || empty($email) || empty($password) || empty($confirm)) {
                 $error = "All fields are required.";
             } elseif (strlen($username) < 4) {
                 $error = "Username must be at least 4 characters.";
@@ -60,7 +61,7 @@ class AuthController {
             }
         }
 
-        require __DIR__ . "/../view/auth/signup.php";
+        require "../app/view/auth/signup.php";
     }
 
     public function login() {
@@ -69,8 +70,8 @@ class AuthController {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $email = $_POST["email"] ?? '';
-            $password = $_POST["password"] ?? '';
+            $email = $_POST["email"];
+            $password = $_POST["password"];
 
             $users = $this->loadUsers();
 
@@ -89,7 +90,7 @@ class AuthController {
             $error = "Invalid email or password.";
         }
 
-        require __DIR__ . "/../view/auth/login.php";
+        require "../app/view/auth/login.php";
     }
 
     public function dashboard() {
@@ -99,13 +100,18 @@ class AuthController {
             exit;
         }
 
-        require __DIR__ . "/../view/dashboard.php";
+        require "../app/view/dashboard.php";
     }
 
     public function logout() {
 
+        $_SESSION = [];
+
         session_destroy();
-        setcookie("remember_user", "", time() - 3600, "/");
+
+        if (isset($_COOKIE['remember_user'])) {
+            setcookie("remember_user", "", time() - 3600, "/");
+        }
 
         header("Location: index.php?action=login");
         exit;
