@@ -1,5 +1,5 @@
-<?php require "../app/view/layouts/header.php"; ?>
-<?php require "../app/view/layouts/navbar.php"; ?>
+<?php require __DIR__ . "/../layouts/header.php"; ?>
+<?php require __DIR__ . "/../layouts/navbar.php"; ?>
 
 <div class="container mt-5 col-md-4">
     <div class="card p-4 shadow">
@@ -10,19 +10,27 @@
             <div class="alert alert-danger"><?= $error ?></div>
         <?php endif; ?>
 
-        <?php if(!empty($success)): ?>
-            <div class="alert alert-success"><?= $success ?></div>
-        <?php endif; ?>
-
         <form method="POST" action="index.php?action=signup">
 
-            <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+            <div class="mb-3">
+                <label class="form-label text-light">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
 
-            <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+            <div class="mb-3">
+                <label class="form-label text-light">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
 
-            <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+            <div class="mb-3">
+                <label class="form-label text-light">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
 
-            <input type="password" name="confirm" class="form-control mb-3" placeholder="Confirm Password" required>
+            <div class="mb-3">
+                <label class="form-label text-light">Confirm Password</label>
+                <input type="password" name="confirm" class="form-control" required>
+            </div>
 
             <button class="btn btn-primary w-100">Signup</button>
         </form>
@@ -30,4 +38,4 @@
     </div>
 </div>
 
-<?php require "../app/view/layouts/footer.php"; ?>
+<?php require __DIR__ . "/../layouts/footer.php"; ?>

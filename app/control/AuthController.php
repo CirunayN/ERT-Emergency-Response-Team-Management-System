@@ -2,7 +2,7 @@
 
 class AuthController {
 
-    private $userFile = "../app/model/users.json";
+    private $userFile = __DIR__ . "/../model/users.json";
 
     private function loadUsers() {
         if (!file_exists($this->userFile)) {
@@ -18,16 +18,14 @@ class AuthController {
     public function signup() {
 
         $error = "";
-        $success = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $username = trim($_POST["username"]);
-            $email = trim($_POST["email"]);
-            $password = $_POST["password"];
-            $confirm = $_POST["confirm"];
+            $username = trim($_POST["username"] ?? '');
+            $email = trim($_POST["email"] ?? '');
+            $password = $_POST["password"] ?? '';
+            $confirm = $_POST["confirm"] ?? '';
 
-            // 🔥 VALIDATIONS
             if (empty($username) || empty($email) || empty($password)) {
                 $error = "All fields are required.";
             } elseif (strlen($username) < 4) {
@@ -55,12 +53,14 @@ class AuthController {
                     ];
 
                     $this->saveUsers($users);
-                    $success = "Account created successfully!";
+
+                    header("Location: index.php?action=login");
+                    exit;
                 }
             }
         }
 
-        require "../app/view/auth/signup.php";
+        require __DIR__ . "/../view/auth/signup.php";
     }
 
     public function login() {
@@ -69,8 +69,8 @@ class AuthController {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $email = $_POST["email"];
-            $password = $_POST["password"];
+            $email = $_POST["email"] ?? '';
+            $password = $_POST["password"] ?? '';
 
             $users = $this->loadUsers();
 
@@ -79,7 +79,6 @@ class AuthController {
 
                     $_SESSION["user"] = $user;
 
-                    // COOKIE
                     setcookie("remember_user", $user["username"], time() + (86400 * 7), "/");
 
                     header("Location: index.php?action=dashboard");
@@ -90,7 +89,7 @@ class AuthController {
             $error = "Invalid email or password.";
         }
 
-        require "../app/view/auth/login.php";
+        require __DIR__ . "/../view/auth/login.php";
     }
 
     public function dashboard() {
@@ -100,7 +99,7 @@ class AuthController {
             exit;
         }
 
-        require "../app/view/dashboard.php";
+        require __DIR__ . "/../view/dashboard.php";
     }
 
     public function logout() {

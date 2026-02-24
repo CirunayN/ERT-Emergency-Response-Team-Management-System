@@ -1,24 +1,31 @@
 <?php
-// app/controller/IncidentController.php
 require_once __DIR__ . '/../model/Incident.php';
 
 class IncidentController
 {
-    // Show the form and current incidents
     public function index(): void
     {
         if (!isset($_SESSION['user'])) {
             header('Location: index.php?action=login');
             exit;
         }
-    
+
         $incidents = Incident::all();
+        $error = $_SESSION['flash_error'] ?? '';
+        $success = $_SESSION['flash_success'] ?? '';
+
+        unset($_SESSION['flash_error'], $_SESSION['flash_success']);
+
+        require __DIR__ . '/../view/incident_form.php';
     }
 
-    // Handle form submission
     public function store(): void
     {
-        // collect input safely (basic)
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
         $reporter = trim($_POST['reporter'] ?? '');
         $contact  = trim($_POST['contact'] ?? '');
         $location = trim($_POST['location'] ?? '');
@@ -27,10 +34,8 @@ class IncidentController
         $description = trim($_POST['description'] ?? '');
         $datetime = date('Y-m-d H:i:s');
 
-        // validation
         if ($reporter === '' || $contact === '' || $location === '' || $type === '' || $danger === '' || $description === '') {
             $_SESSION['flash_error'] = 'All fields are required!';
-            // store old inputs so view can re-populate if you want
             $_SESSION['old'] = compact('reporter','contact','location','type','danger','description');
             header('Location: index.php?action=incident');
             exit;
@@ -50,7 +55,6 @@ class IncidentController
             exit;
         }
 
-        // Passed validation -> save via Model
         Incident::create([
             'reporter' => $reporter,
             'contact' => $contact,
@@ -61,10 +65,9 @@ class IncidentController
             'description' => $description
         ]);
 
-        // success flash and redirect (PRG)
         $_SESSION['flash_success'] = 'Incident successfully reported!';
-        // clear old inputs
         unset($_SESSION['old']);
+
         header('Location: index.php?action=incident');
         exit;
     }

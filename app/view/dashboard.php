@@ -16,14 +16,14 @@
 
         <div class="col-md-4">
             <div class="card p-4 text-center">
-                <h5>Team Members</h5>
+                <h5>Still Working</h5>
                 <button class="btn btn-secondary mt-2" disabled>Coming Soon</button>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="card p-4 text-center">
-                <h5>Reports & Analytics</h5>
+                <h5>Still Working</h5>
                 <button class="btn btn-secondary mt-2" disabled>Coming Soon</button>
             </div>
         </div>
