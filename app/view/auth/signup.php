@@ -14,22 +14,22 @@
 
             <div class="mb-3">
                 <label class="form-label text-light">Username</label>
-                <input type="text" name="username" class="form-control" required>
+                <input type="text" name="username" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label class="form-label text-light">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="text" name="email" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label class="form-label text-light">Password</label>
-                <input type="password" name="password" class="form-control" required>
+                <input type="password" name="password" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label class="form-label text-light">Confirm Password</label>
-                <input type="password" name="confirm" class="form-control" required>
+                <input type="password" name="confirm" class="form-control">
             </div>
 
             <button class="btn btn-primary w-100">Signup</button>

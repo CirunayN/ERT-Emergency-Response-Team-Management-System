@@ -8,5 +8,25 @@
         "username": "NotUzuk1",
         "email": "cirunaynino@gmail.com",
         "password": "$2y$10$EP5Y.fOJkYlYiLsszGtjgOTAtSP\/CDj5IPxcZPaJxVfZJMwXCVUFm"
+    },
+    {
+        "username": "zackchan2005",
+        "email": "ninocirunay545@gmail.com",
+        "password": "$2y$10$xRcZLEiEwzoc8I8y0cFMfe3QHoVO0mLe6txSjppZI15I80nR2DZb2"
+    },
+    {
+        "username": "New User",
+        "email": "example@gmail.com",
+        "password": "$2y$10$7DuXtZH5PC9z\/S6ZB4dnYe6SAQ.Gho0lCiOd9kebhbTqmztAbIg3e"
+    },
+    {
+        "username": "Admin",
+        "email": "admin@sd.com",
+        "password": "$2y$10$pX8JH1Rr5KqIqrHACGphn.g\/v\/R9kpZn2VtefTnKQ6liEcx5tYot."
+    },
+    {
+        "username": "ZeZion",
+        "email": "asdfa@gmail.com",
+        "password": "$2y$10$dzeiJU\/rSJMIGemRTwNkyu8ol11Sg1aH8fehD6qgTUm6HgdKLIe6m"
     }
 ]

@@ -12,7 +12,7 @@ function old($key, $default = '') {
   <title>Emergency Response Team</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/form-style.css" rel="stylesheet">
- 
+ <?php require "../app/view/layouts/navbar.php"; ?>
 </head>
 <body>
 <h1 class="text-center">Emergency Response Team Management System</h1>

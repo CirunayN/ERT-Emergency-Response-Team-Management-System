@@ -6,7 +6,6 @@ $username = $_SESSION["user"]["username"] ?? '';
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
   <div class="container">
 
-    <!-- System Brand -->
     <a class="navbar-brand fw-bold" href="index.php?action=dashboard">
       🚑 ERT Management
     </a>
@@ -18,7 +17,6 @@ $username = $_SESSION["user"]["username"] ?? '';
     <div class="collapse navbar-collapse" id="navbarNav">
 
       <?php if($loggedIn): ?>
-        <!-- LEFT SIDE LINKS -->
         <ul class="navbar-nav me-auto">
 
           <li class="nav-item">
@@ -35,7 +33,6 @@ $username = $_SESSION["user"]["username"] ?? '';
 
         </ul>
 
-        <!-- RIGHT SIDE USER INFO -->
         <ul class="navbar-nav ms-auto align-items-center">
 
           <li class="nav-item me-3 text-white">
@@ -52,7 +49,6 @@ $username = $_SESSION["user"]["username"] ?? '';
 
       <?php else: ?>
 
-        <!-- If NOT logged in -->
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link" href="index.php?action=login">Login</a>
