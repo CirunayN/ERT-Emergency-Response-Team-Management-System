@@ -1,119 +1,84 @@
 <?php
 
+require_once __DIR__ . '/../model/User.php';
+
 class AuthController {
 
-    private $userFile = "../app/model/users.json";
+    public function signup(){
 
-    private function loadUsers() {
-        if (!file_exists($this->userFile)) {
-            file_put_contents($this->userFile, json_encode([]));
-        }
-        return json_decode(file_get_contents($this->userFile), true);
-    }
+        $error="";
 
-    private function saveUsers($users) {
-        file_put_contents($this->userFile, json_encode($users, JSON_PRETTY_PRINT));
-    }
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
 
-    public function signup() {
+            $username=trim($_POST["username"]);
+            $email=trim($_POST["email"]);
+            $password=$_POST["password"];
+            $confirm=$_POST["confirm"];
 
-        $error = "";
-        $success = "";
+            if(empty($username)||empty($email)||empty($password)){
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $error="All fields required.";
 
-            $username = trim($_POST["username"]);
-            $email = trim($_POST["email"]);
-            $password = $_POST["password"];
-            $confirm = $_POST["confirm"];
+            }elseif($password!=$confirm){
 
-            if (empty($username) || empty($email) || empty($password) || empty($confirm)) {
-                $error = "All fields are required.";
-            } elseif (strlen($username) < 4) {
-                $error = "Username must be at least 4 characters.";
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "Invalid email format.";
-            } elseif ($password !== $confirm) {
-                $error = "Passwords do not match.";
-            } else {
+                $error="Passwords do not match.";
 
-                $users = $this->loadUsers();
+            }else{
 
-                foreach ($users as $user) {
-                    if ($user["email"] === $email) {
-                        $error = "Email already exists.";
-                        break;
-                    }
-                }
+                $hash=password_hash($password,PASSWORD_DEFAULT);
 
-                if (!$error) {
-                    $users[] = [
-                        "username" => $username,
-                        "email" => $email,
-                        "password" => password_hash($password, PASSWORD_DEFAULT)
-                    ];
+                User::create($username,$email,$hash);
 
-                    $this->saveUsers($users);
-
-                    header("Location: index.php?action=login");
-                    exit;
-                }
+                header("Location: index.php?action=login");
+                exit;
             }
         }
 
         require "../app/view/auth/signup.php";
     }
 
-    public function login() {
+    public function login(){
 
-        $error = "";
+        $error="";
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
 
-            $email = $_POST["email"];
-            $password = $_POST["password"];
+            $email=$_POST["email"];
+            $password=$_POST["password"];
 
-            $users = $this->loadUsers();
+            $user=User::findByEmail($email);
 
-            foreach ($users as $user) {
-                if ($user["email"] === $email && password_verify($password, $user["password"])) {
+            if($user && password_verify($password,$user["password"])){
 
-                    $_SESSION["user"] = $user;
+                $_SESSION["user"]=$user;
 
-                    setcookie("remember_user", $user["username"], time() + (86400 * 7), "/");
+                setcookie("remember_user",$user["username"],time()+604800,"/");
 
-                    header("Location: index.php?action=dashboard");
-                    exit;
-                }
+                header("Location:index.php?action=dashboard");
+                exit;
             }
 
-            $error = "Invalid email or password.";
+            $error="Invalid login.";
         }
 
         require "../app/view/auth/login.php";
     }
 
-    public function dashboard() {
+    public function dashboard(){
 
-        if (!isset($_SESSION["user"])) {
-            header("Location: index.php?action=login");
+        if(!isset($_SESSION["user"])){
+
+            header("Location:index.php?action=login");
             exit;
         }
 
         require "../app/view/dashboard.php";
     }
 
-    public function logout() {
-
-        $_SESSION = [];
+    public function logout(){
 
         session_destroy();
 
-        if (isset($_COOKIE['remember_user'])) {
-            setcookie("remember_user", "", time() - 3600, "/");
-        }
-
-        header("Location: index.php?action=login");
-        exit;
+        header("Location:index.php?action=login");
     }
 }

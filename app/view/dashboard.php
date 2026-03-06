@@ -1,34 +1,20 @@
-<?php require "../app/view/layouts/header.php"; ?>
-<?php require "../app/view/layouts/navbar.php"; ?>
+<?php require "layouts/header.php"; ?>
+<?php require "layouts/navbar.php"; ?>
 
 <div class="container mt-5">
 
-    <h2>Welcome, <?= $_SESSION["user"]["username"]; ?> 👋</h2>
+<h2>Welcome <?= $_SESSION["user"]["username"] ?></h2>
 
-    <div class="row mt-4">
+<?php if(isset($_COOKIE["remember_user"])): ?>
 
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h5>Manage Incidents</h5>
-                <a href="index.php?action=incident" class="btn btn-primary mt-2">Open</a>
-            </div>
-        </div>
+<p>Cookie User: <?= $_COOKIE["remember_user"] ?></p>
 
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h5>Still Working</h5>
-                <button class="btn btn-secondary mt-2" disabled>Coming Soon</button>
-            </div>
-        </div>
+<?php endif; ?>
 
-        <div class="col-md-4">
-            <div class="card p-4 text-center">
-                <h5>Still Working</h5>
-                <button class="btn btn-secondary mt-2" disabled>Coming Soon</button>
-            </div>
-        </div>
+<a href="index.php?action=incident" class="btn btn-dark mt-3">
+Manage Incidents
+</a>
 
-    </div>
 </div>
 
-<?php require "../app/view/layouts/footer.php"; ?>
+<?php require "layouts/footer.php"; ?>
